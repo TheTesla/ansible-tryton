@@ -1,0 +1,34 @@
+---
+
+- name: Install tryton-server and dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - tryton-server
+    - tryton-modules-all
+    - sqlite3
+    - python-pexpect
+  become: True
+  become_method: sudo
+
+- name: Create sqlite file
+  file:
+    name: "/var/lib/tryton/trytondb.sqlite"
+    state: touch
+    owner: tryton
+    group: tryton
+  become: True
+  become_method: sudo
+
+- name: Initialize tryton-server
+  expect:
+    command: trytond-admin -c /etc/tryton/trytond.conf -d trytondb --all -p
+    responses:
+      password:
+        - "{{ adminpasswd }}"
+        - "{{ adminpasswd }}"
+  become: True
+  become_method: sudo
+
+

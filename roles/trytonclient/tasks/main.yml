@@ -1,0 +1,12 @@
+---
+
+- name: Install tryton-client
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - tryton-client
+  become: True
+  become_method: sudo
+
+

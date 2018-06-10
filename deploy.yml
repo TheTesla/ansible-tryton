@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  user: vagrant
+  vars_files:
+    - vars/passwords.yml
+  roles:
+    - trytonserver
+    - trytonclient
